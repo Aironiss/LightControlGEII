@@ -1,9 +1,9 @@
-
 <!doctype html>
 <html>
 	<head>
 		<meta charset="utf-8">
 		<title>Accueil</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 	</head>
 	<body>
 		<h1>Accueil Light Control GEII</h1>
@@ -13,5 +13,38 @@
 		<form action="/turnoff" method="post">
 			<button name="turnOffBtn" type="submit">Turn Off</button>
 		</form>
+		<h2>My Lamps</h2>
+		<div class="lamp-cards-container">
+			<div class="lamp-card">
+				<h4 class="lamp-card-title"><b>Living room 1</b></h4>
+				<p class="lamp-card-state-text">Turned Off</p>
+				<button class="lamp-card-btn" name="turn-on-living-room-1">Turn On</button>
+			</div>
+			<div class="lamp-card">
+				<h4 class="lamp-card-title"><b>Living room 2</b></h4>
+				<p class="lamp-card-state-text">Turned Off</p>
+				<button class="lamp-card-btn" name="turn-on-living-room-1">Turn On</button>
+			</div>
+			<div class="lamp-card">
+				<h4 class="lamp-card-title"><b>Living room 3</b></h4>
+				<p class="lamp-card-state-text">Turned Off</p>
+				<button class="lamp-card-btn" name="turn-on-living-room-1">Turn On</button>
+			</div>
+			<div class="lamp-card">
+				<h4 class="lamp-card-title"><b>Living room 4</b></h4>
+				<p class="lamp-card-state-text">Turned Off</p>
+				<button class="lamp-card-btn" name="turn-on-living-room-1">Turn On</button>
+			</div>
+			<div class="lamp-card">
+				<h4 class="lamp-card-title"><b>Living room 5</b></h4>
+				<p class="lamp-card-state-text">Turned Off</p>
+				<button class="lamp-card-btn" name="turn-on-living-room-1">Turn On</button>
+			</div>
+			<div class="lamp-card">
+				<h4 class="lamp-card-title"><b>Living room 6</b></h4>
+				<p class="lamp-card-state-text">Turned Off</p>
+				<button class="lamp-card-btn" name="turn-on-living-room-1">Turn On</button>
+			</div>
+		</div>
 	</body>
 </html>

@@ -7,7 +7,8 @@ blueprint = flask.Blueprint("api", __name__, template_folder=template)
 @blueprint.route('/state')
 def getState():
 	print("getState called")
-	return 0
+    
+    return 0
 
 
 @blueprint.route('/turn-on')
