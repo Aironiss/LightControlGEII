@@ -2,27 +2,52 @@
 $(function (){
 	
 	var $lampCardsContainer = $(".lamp-cards-container");
+	
+	function addLampCard(lamp) {
+		var template;
+		if (lamp.state === "off") {	
+			template = $("#lamp-card-off-template").html();
+		} else {
+			template = $("#lamp-card-on-template").html();
+		}
+		$lampCardsContainer.append(Mustache.render(template, lamp));
+	}
 
 	$.ajax({
 		type: "GET",
-		url: "/lamps", // TODO: Replace it by "/api/lamps"
+		url: "api/lamps",
 		success: function(lamps) {
 			$.each(lamps, function(i, lamp) {
-				var template;
-				if (lamp.state === "off") {
-					/*$lampCardsContainer.append('<div class="lamp-card"><h4 class="lamp-card-title"><b>' + lamp.name + '</b></h4><p class="lamp-card-state-text">Turned Off</p><button class="lamp-card-btn" name="turn-on-' + lamp.id + '">Turn On</button></div>');
-					*/
-					template = $("#lamp-card-off-template").html();
-				} else {
-					/*$lampCardsContainer.append('<div class="lamp-card"><h4 class="lamp-card-title"><b>' + lamp.name + '</b></h4><p class="lamp-card-state-text">Turned On</p><button class="lamp-card-btn" name="turn-off-' + lamp.id + '">Turn On</button></div>');
-					*/
-					template = $("#lamp-card-on-template").html();
-				}
-				$lampCardsContainer.append(Mustache.render(template, lamp));
+				addLampCard(lamp);
 			});
 		},
 		error: function() {
-			alert("Error occured while loading lamps");
+			console.error("Error occured while loading lamps");
 		}
+	});
+
+	$lampCardsContainer.delegate(".turn-on-lamp-btn, .turn-off-lamp-btn", "click", function() {
+		var clickedButton = $(this);
+		var id = clickedButton.attr("data-id");
+		var data = {};
+		if (clickedButton.hasClass("turn-on-lamp-btn")) {
+			data["action"] = "turnOn";
+		} else {
+			data["action"] = "turnOff";
+		}
+
+		//alert("Api call: id=" + id + ", action=" + data["action"]);
+		$.ajax({
+			type: "PUT",
+			url: "api/lamps/" + id,
+			data: data,
+			success: function(newLamp) {
+				clickedButton.parent().remove();
+				addLampToCard(newLamp);
+			},
+			error: function() {
+				console.error("Error occured while changing lamp state");
+			}
+		});
 	});
 });

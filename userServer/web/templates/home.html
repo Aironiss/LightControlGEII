@@ -22,14 +22,14 @@
 				<div class="lamp-card">
 					<h4 class="lamp-card-title"><b>{% raw %}{{name}}{% endraw %}</b></h4>
 					<p class="lamp-card-state-text">Turned Off</p>
-					<button class="lamp-card-btn positive-btn" name="turn-on-{% raw %}{{id}}{% endraw %}">Turn On</button>
+					<button class="lamp-card-btn turn-on-lamp-btn positive-btn" data-id="{% raw %}{{id}}{% endraw %}">Turn On</button>
 				</div>
 			</template>
 			<template id="lamp-card-on-template">
 				<div class="lamp-card">
 					<h4 class="lamp-card-title"><b>{% raw %}{{name}}{% endraw %}</b></h4>
 					<p class="lamp-card-state-text">Turned On</p>
-					<button class="lamp-card-btn negative-btn" name="turn-on-{% raw %}{{id}}{% endraw %}">Turn Off</button>
+					<button class="lamp-card-btn turn-off-lamp-btn negative-btn" data-id="{% raw %}{{id}}{% endraw %}">Turn Off</button>
 				</div>
 			</template>
 		</div>
