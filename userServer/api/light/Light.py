@@ -1,13 +1,15 @@
 from uuid import uuid1
 
 class Light():
-    def __init__(self, id=uuid1(), name=id):
-        self.turnedOn = False
-        self.id = id
+    def __init__(self, id=None, name=id):
+        self.state = "off"
         self.name = name
+        if id==None:
+            self.id = uuid1()
+        else : self.id = id
 
     def get_state(self):
-        return self.turnedOn
+        return self.state
     
     def get_id(self):
         return self.id
@@ -24,9 +26,9 @@ class Light():
         return infos
     
     def turnOn(self):
-        self.turnedOn = True
+        self.state = "on"
         return self.get_state()
     
     def turnOff(self):
-        self.turnedOn = False
+        self.state = "off"
         return self.get_state()

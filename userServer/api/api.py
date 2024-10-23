@@ -1,30 +1,45 @@
 import flask
 import json
 import random
-from api.Light import Light
+from api.light.LightManager import LightManager
+from api.light.Light import Light
 
 blueprint = flask.Blueprint("api", __name__, template_folder="templates")
 
+@blueprint.route('/lamps', methods=["GET"])
+def getLamps():
+	lightManager = LightManager()
+	print("getLamps called.")
+	return [existingLight.get_info() for existingLight in lightManager.getLights()]
+	
+@blueprint.route('/lamps/<id>', methods=["PUT"])
+def changeState(id):
+	lightManager = LightManager()
+	#print(flask.request.get_json())
+	datas = str(flask.request.get_data())
+	if "turnOn" in datas :
+		changedLight = lightManager.changeLightState(lightId=id, action="turnOn")
+		print(changedLight)
+		return changedLight
+	elif "turnOff" in datas :
+		return "Turn off"
+	else :
+		return "Error : No valid action found !"
+	#action = flask.request.get_json()
+	#print(f"chageState called for {id} with value {action}.")
+	
+
 @blueprint.route('/add/<lightName>')
 def add(lightName):
-	print("add called")
-
-	light = Light(lightName)
-	print(f"Light {light.get_name()} created")
-
-	with open(file="resources/Lights.json", mode="r+") as existingLightsFile:
-
-		existingLights = json.load(existingLightsFile)
-
-		for existingLight in existingLights :
-			if existingLight["Name"] == lightName:
-				print(f"Error : Light has same name as {lightName}")
-				break
-		
-		json.dump(light.get_info(), existingLightsFile)
+	lightManager = LightManager()
+	print("Add Light called.")
+	for existingLight in lightManager.getLights():
+		if lightName == existingLight.get_name():
+			print(f"Error : {lightName} is already token by another light.")
+			break
 	
-	existingLightsFile.close()
-
+	light = Light(name=lightName)
+	lightManager.addLight(light=light)
 	return light.get_info()
 
 @blueprint.route('/state/<lightName>')
