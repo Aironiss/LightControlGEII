@@ -4,6 +4,9 @@
 		<meta charset="utf-8">
 		<title>Accueil</title>
 		<link rel="stylesheet" href="{{ url_for('web.static', filename='css/home.css') }}">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+		<script src="{{ url_for('web.static', filename='js/home.js') }}"></script>
 	</head>
 	<body>
 		<h1>Accueil Light Control GEII</h1>
@@ -15,36 +18,20 @@
 		</form>
 		<h2>My Lamps</h2>
 		<div class="lamp-cards-container">
-			<div class="lamp-card">
-				<h4 class="lamp-card-title"><b>Living room 1</b></h4>
-				<p class="lamp-card-state-text">Turned Off</p>
-				<button class="lamp-card-btn" name="turn-on-living-room-1">Turn On</button>
-			</div>
-			<div class="lamp-card">
-				<h4 class="lamp-card-title"><b>Living room 2</b></h4>
-				<p class="lamp-card-state-text">Turned Off</p>
-				<button class="lamp-card-btn" name="turn-on-living-room-1">Turn On</button>
-			</div>
-			<div class="lamp-card">
-				<h4 class="lamp-card-title"><b>Living room 3</b></h4>
-				<p class="lamp-card-state-text">Turned Off</p>
-				<button class="lamp-card-btn" name="turn-on-living-room-1">Turn On</button>
-			</div>
-			<div class="lamp-card">
-				<h4 class="lamp-card-title"><b>Living room 4</b></h4>
-				<p class="lamp-card-state-text">Turned Off</p>
-				<button class="lamp-card-btn" name="turn-on-living-room-1">Turn On</button>
-			</div>
-			<div class="lamp-card">
-				<h4 class="lamp-card-title"><b>Living room 5</b></h4>
-				<p class="lamp-card-state-text">Turned Off</p>
-				<button class="lamp-card-btn" name="turn-on-living-room-1">Turn On</button>
-			</div>
-			<div class="lamp-card">
-				<h4 class="lamp-card-title"><b>Living room 6</b></h4>
-				<p class="lamp-card-state-text">Turned Off</p>
-				<button class="lamp-card-btn" name="turn-on-living-room-1">Turn On</button>
-			</div>
+			<template id="lamp-card-off-template">
+				<div class="lamp-card">
+					<h4 class="lamp-card-title"><b>{% raw %}{{name}}{% endraw %}</b></h4>
+					<p class="lamp-card-state-text">Turned Off</p>
+					<button class="lamp-card-btn positive-btn" name="turn-on-{% raw %}{{id}}{% endraw %}">Turn On</button>
+				</div>
+			</template>
+			<template id="lamp-card-on-template">
+				<div class="lamp-card">
+					<h4 class="lamp-card-title"><b>{% raw %}{{name}}{% endraw %}</b></h4>
+					<p class="lamp-card-state-text">Turned On</p>
+					<button class="lamp-card-btn negative-btn" name="turn-on-{% raw %}{{id}}{% endraw %}">Turn Off</button>
+				</div>
+			</template>
 		</div>
 	</body>
 </html>

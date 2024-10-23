@@ -6,13 +6,16 @@ blueprint = flask.Blueprint("web", __name__, template_folder="templates", static
 def home():
     return flask.render_template("home.html")
 
-@blueprint.route("/turnon", methods=["POST"])
-def turnOn():
-    print("Led turned on")
-    return flask.render_template("home.html")
-   
-
-@blueprint.route("/turnoff", methods=["POST"])
-def turnOff():
-    print("Led turned off")
-    return flask.render_template("home.html")
+@blueprint.route("/lamps", methods=["GET"])
+def getLamps():
+    return flask.jsonify([
+    {
+        "id": 101,
+        "name": "Living room 1",
+        "state": "off"
+    }, {
+        "id": 42,
+        "name": "Living room 2",
+        "state": "on"
+    }
+])
