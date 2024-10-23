@@ -5,7 +5,7 @@ $(function (){
 	
 	function addLampCard(lamp) {
 		var template;
-		if (lamp.state === "off") {	
+		if (lamp.State === "off") {	
 			template = $("#lamp-card-off-template").html();
 		} else {
 			template = $("#lamp-card-on-template").html();
@@ -31,9 +31,9 @@ $(function (){
 		var id = clickedButton.attr("data-id");
 		var data = {};
 		if (clickedButton.hasClass("turn-on-lamp-btn")) {
-			data["action"] = "turnOn";
+			data["Action"] = "turnOn";
 		} else {
-			data["action"] = "turnOff";
+			data["Action"] = "turnOff";
 		}
 
 		//alert("Api call: id=" + id + ", action=" + data["action"]);
