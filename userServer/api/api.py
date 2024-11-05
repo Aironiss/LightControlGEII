@@ -5,16 +5,15 @@ from api.light.LightManager import LightManager
 from api.light.Light import Light
 
 blueprint = flask.Blueprint("api", __name__, template_folder="templates")
+lightManager = LightManager()
 
 @blueprint.route('/lamps', methods=["GET"])
 def getLamps():
-	lightManager = LightManager()
 	print("getLamps called.")
 	return [existingLight.get_info() for existingLight in lightManager.getLights()]
 	
 @blueprint.route('/lamps/<id>', methods=["PUT"])
 def changeState(id):
-	lightManager = LightManager()
 	#print(flask.request.get_json())
 	datas = str(flask.request.get_data())
 	if "turnOn" in datas :
@@ -31,7 +30,6 @@ def changeState(id):
 
 @blueprint.route('/add/<lightName>')
 def add(lightName):
-	lightManager = LightManager()
 	print("Add Light called.")
 	for existingLight in lightManager.getLights():
 		if lightName == existingLight.get_name():
