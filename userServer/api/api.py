@@ -19,10 +19,10 @@ def changeState(id):
 	datas = str(flask.request.get_data())
 	if "turnOn" in datas :
 		changedLight = lightManager.changeLightState(lightId=id, action="turnOn")
-		print(changedLight)
 		return changedLight
 	elif "turnOff" in datas :
-		return "Turn off"
+		changedLight = lightManager.changeLightState(lightId=id, action="turnOff")
+		return changedLight
 	else :
 		return "Error : No valid action found !"
 	#action = flask.request.get_json()

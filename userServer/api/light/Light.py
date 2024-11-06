@@ -1,8 +1,8 @@
 from uuid import uuid1
 
 class Light():
-    def __init__(self, id=None, name=id):
-        self.state = "off"
+    def __init__(self, id=None, name=id, state="off"):
+        self.state = state
         self.name = name
         if id==None:
             self.id = uuid1()

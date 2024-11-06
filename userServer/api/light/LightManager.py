@@ -10,7 +10,7 @@ class LightManager():
                 jsonParsed = json.load(existingLightsFile)
                 for jsonLight in jsonParsed["Lamps"]:
                     print(jsonLight)
-                    self.lights.append(Light(id=jsonLight["Id"], name=jsonLight["Name"]))
+                    self.lights.append(Light(id=jsonLight["Id"], name=jsonLight["Name"], state=jsonLight["State"]))
             except JSONDecodeError:
                 pass
 

@@ -43,7 +43,7 @@ $(function (){
 			data: data,
 			success: function(newLamp) {
 				clickedButton.parent().remove();
-				addLampToCard(newLamp);
+				addLampCard(newLamp);
 			},
 			error: function() {
 				console.error("Error occured while changing lamp state");
