@@ -42,19 +42,16 @@ def add(lightName):
 	lightManager.addLight(light=light)
 	return light.get_info()
 
-@blueprint.route('/state/<lightName>')
-def getState():
+@blueprint.route('/state/<id>')
+def getState(id):
+	lightManager = LightManager()
 	print("getState called")
-	return 0
+	return lightManager.getInfoById(id=id, info="State")
 
 
-@blueprint.route('/turn-on')
-def setStateOn(light):
-	print("setStateOn called")
-	return 0
-
-
-@blueprint.route('/turn-off')
-def setStateOff():
-	print("setStateOff called")
-	return 0
+@blueprint.route('/rm/<id>')
+def rmLight(id):
+	lightManager = LightManager()
+	print(id)
+	return lightManager.removeLight(id)
+	

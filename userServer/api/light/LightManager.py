@@ -1,6 +1,7 @@
 import json
 from json.decoder import JSONDecodeError
 from api.light.Light import Light
+import os
 
 class LightManager():
     def __init__(self):
@@ -14,6 +15,28 @@ class LightManager():
             except JSONDecodeError:
                 pass
 
+    def refreshLightsFile(self):
+        isFile = os.path.isfile("api/resources/Lights.json")
+        content = {"Lamps": []}
+        with open("api/resources/Lights.json", "w") as newFile:
+            try:
+                json.dump(content, newFile)
+            except Exception as e: print(e)
+
+        with open("api/resources/Lights.json", "r") as readedNewFile:
+            try:
+                jsonParsed = json.load(readedNewFile)
+            except Exception as e: print(e)
+
+            for light in self.getLights():
+                jsonParsed["Lamps"].append(light.get_info())
+
+        with open("api/resources/Lights.json", "w") as modifiedNewFile:
+            try:
+                json.dump(jsonParsed, modifiedNewFile)
+            
+            except Exception as e: print(e)        
+
     def getLights(self):
         lights = []
         for light in self.lights:
@@ -26,10 +49,15 @@ class LightManager():
             ids.append(light.getId())
         return ids
     
-    def getLightById(self, id):
+    def getInfoById(self, id, info="State"):
         for light in self.lights:
-            if light.getId() == id:
-                return light
+            if light.get_id() == id:
+                if info == "State":
+                    return light.get_state()
+                elif info == "Name":
+                    return light.get_name()
+                else : 
+                    return light.get_info()
             
     def addLight(self, light):
         print(f"Light {light.get_name()} added to manager")
@@ -73,3 +101,27 @@ class LightManager():
 
         print(changedLight)
         return changedLight
+    
+    def removeLight(self, lightId):
+        print("rmLight called from Manager")
+        with open(file="api/resources/Lights.json", mode="r") as readExistingLightsFile :
+            try :
+                jsonParsed = json.load(readExistingLightsFile)
+            except Exception as e: print(e)
+        
+        i = 0
+        for light in jsonParsed["Lamps"]:
+            if light["Id"] == lightId:
+                lightToRm = light
+            else:
+                i+=1
+            
+            jsonParsed["Lamps"].pop(i)
+        
+        with open(file="api/resources/Lights.json", mode="w") as writeExistingLightsFile :
+            try:
+                json.dump(jsonParsed, writeExistingLightsFile)
+            except Exception as e: print(e)
+
+        print(lightToRm)
+        return lightToRm
