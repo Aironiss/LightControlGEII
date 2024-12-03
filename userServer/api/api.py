@@ -7,17 +7,16 @@ from api.light.Light import Light
 
 
 blueprint = flask.Blueprint("api", __name__, template_folder="templates")
+lightManager = LightManager()
 
 
 @blueprint.route('/lamps', methods=["GET"])
 def getLamps():
-	lightManager = LightManager()
 	return [existingLight.get_info() for existingLight in lightManager.getLights()]
 
 	
 @blueprint.route('/lamps/<id>', methods=["PUT"])
 def changeState(id):
-	lightManager = LightManager()
 	datas = str(flask.request.get_data())
 	if "turnOn" in datas :
 		changedLight = lightManager.changeLightState(lightId=id, action="turnOn")
@@ -31,7 +30,6 @@ def changeState(id):
 
 @blueprint.route('/add/<lightName>')
 def add(lightName):
-	lightManager = LightManager()
 	for existingLight in lightManager.getLights():
 		if lightName == existingLight.get_name():
 			print(f"Error : {lightName} is already token by another light.")

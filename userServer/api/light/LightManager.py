@@ -11,7 +11,7 @@ class LightManager():
                 jsonParsed = json.load(existingLightsFile)
                 for jsonLight in jsonParsed["Lamps"]:
                     print(jsonLight)
-                    self.lights.append(Light(id=jsonLight["Id"], name=jsonLight["Name"], state=jsonLight["State"]))
+                    self.lights.append(Light(pin=int(jsonLight["Pin"]), id=jsonLight["Id"], name=jsonLight["Name"], state=jsonLight["State"]))
             except JSONDecodeError:
                 pass
 
@@ -80,19 +80,30 @@ class LightManager():
         return light.get_info()
     
     def changeLightState(self, lightId, action):
-        print("changed lamp state")
         with open(file="api/resources/Lights.json", mode="r") as readExistingLightsFile :
             try:
                 jsonParsed = json.load(readExistingLightsFile)
             except Exception as e: print(e)
+        
+        changedLightPos = None
+        for i in range(len(self.lamps)):
+            if self.lamps[i] == lightId:
+                changedLightPos = i
+                break
 
-        for light in jsonParsed["Lamps"]:
-            if light["Id"] == lightId:
-                changedLight = light
+        for i in range(len(jsonParsed["Lamps"])):
+            if jsonParsed["Lamps"][i]["Id"] == lightId:
                 if action == "turnOn":
-                    light["State"] = "on"
+                    self.lamps[changedLightPos].turnOn()
+                    jsonParsed["Lamps"][i]["State"] = "on"
                 elif action == "turnOff":
-                    light["State"] = "off"
+                    self.lamps[changedLightPos].turnOff()
+                    jsonParsed["Lamps"][i]["State"] = "off"
+                changedJsonLight = jsonParsed["Lamps"][i]
+                break
+
+        #for lamp in self.lamps:
+        #    if lamp.id == 
 
         with open(file="api/resources/Lights.json", mode="w") as writeExistingLightsFile :
             try:
