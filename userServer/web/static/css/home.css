@@ -1,4 +1,9 @@
-
+.parkinsans-font {
+  font-family: "Parkinsans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;	
+} 
 
 .lamp-cards-container {
 	padding: 40px;

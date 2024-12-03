@@ -1,21 +1,23 @@
 import flask
 import json
 import random
+
 from api.light.LightManager import LightManager
 from api.light.Light import Light
 
+
 blueprint = flask.Blueprint("api", __name__, template_folder="templates")
+
 
 @blueprint.route('/lamps', methods=["GET"])
 def getLamps():
 	lightManager = LightManager()
-	print("getLamps called.")
 	return [existingLight.get_info() for existingLight in lightManager.getLights()]
+
 	
 @blueprint.route('/lamps/<id>', methods=["PUT"])
 def changeState(id):
 	lightManager = LightManager()
-	#print(flask.request.get_json())
 	datas = str(flask.request.get_data())
 	if "turnOn" in datas :
 		changedLight = lightManager.changeLightState(lightId=id, action="turnOn")
@@ -25,14 +27,11 @@ def changeState(id):
 		return changedLight
 	else :
 		return "Error : No valid action found !"
-	#action = flask.request.get_json()
-	#print(f"chageState called for {id} with value {action}.")
 	
 
 @blueprint.route('/add/<lightName>')
 def add(lightName):
 	lightManager = LightManager()
-	print("Add Light called.")
 	for existingLight in lightManager.getLights():
 		if lightName == existingLight.get_name():
 			print(f"Error : {lightName} is already token by another light.")
@@ -42,10 +41,10 @@ def add(lightName):
 	lightManager.addLight(light=light)
 	return light.get_info()
 
+
 @blueprint.route('/state/<id>')
 def getState(id):
 	lightManager = LightManager()
-	print("getState called")
 	return lightManager.getInfoById(id=id, info="State")
 
 
