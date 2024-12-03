@@ -35,10 +35,10 @@ class Light():
     
     def turnOn(self):
         self.state = "on"
-        pi.write(ledPin, True)
+        pi.write(self.pin, True)
         return self.get_state()
     
     def turnOff(self):
         self.state = "off"
-        pi.write(ledPin, False)
+        pi.write(self.pin, False)
         return self.get_state()

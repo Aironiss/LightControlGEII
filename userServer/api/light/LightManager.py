@@ -85,33 +85,36 @@ class LightManager():
                 jsonParsed = json.load(readExistingLightsFile)
             except Exception as e: print(e)
         
+        #print(f"Changing light id: {lightId}")
+
         changedLightPos = None
-        for i in range(len(self.lamps)):
-            if self.lamps[i] == lightId:
+        for i in range(len(self.lights)):
+            if self.lights[i].id == lightId:
                 changedLightPos = i
                 break
+        
+        if changedLightPos == None:
+            print("Error: Light id doesn't exists")
+            return
 
         for i in range(len(jsonParsed["Lamps"])):
             if jsonParsed["Lamps"][i]["Id"] == lightId:
                 if action == "turnOn":
-                    self.lamps[changedLightPos].turnOn()
+                    self.lights[changedLightPos].turnOn()
                     jsonParsed["Lamps"][i]["State"] = "on"
                 elif action == "turnOff":
-                    self.lamps[changedLightPos].turnOff()
+                    self.lights[changedLightPos].turnOff()
                     jsonParsed["Lamps"][i]["State"] = "off"
                 changedJsonLight = jsonParsed["Lamps"][i]
-                break
-
-        #for lamp in self.lamps:
-        #    if lamp.id == 
+                break 
 
         with open(file="api/resources/Lights.json", mode="w") as writeExistingLightsFile :
             try:
                 json.dump(jsonParsed, writeExistingLightsFile)
             except Exception as e: print(e)
 
-        print(changedLight)
-        return changedLight
+        #print(self.lights[changedLightPos].get_info())
+        return self.lights[changedLightPos].get_info()
     
     def removeLight(self, lightId):
         print("rmLight called from Manager")
